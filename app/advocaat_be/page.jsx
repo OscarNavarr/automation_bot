@@ -22,13 +22,8 @@ export default function Advocaat_be() {
             }
             const result = await response.json();
 
-            // Check if the result.data values are unique in the data array
-            const newData = result.data.filter(newItem => 
-                !data.some(item => item.notaryName === newItem.notaryName && item.address === newItem.address)
-            );
-
             // Append the new data to the existing data
-            setData((prev) => [...prev, ...newData]);
+            setData((prev) => [...prev, ...result.data]);
         } catch (error) {
             console.error('Error al extraer datos:', error);
             setError(error.message);

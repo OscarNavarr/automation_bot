@@ -16,8 +16,8 @@ export async function GET(request) {
 
     const data = await page.evaluate(() => {
       const links = document.querySelectorAll('a.link--extended.before\\:z-10');
+      
       const results = [];
-
       links.forEach(link => {
         const grandParent = link.parentElement?.parentElement;
         if (grandParent) {
