@@ -1,5 +1,8 @@
 'use client';
+
 import { useState, useEffect, useRef } from 'react';
+import { CSVLink } from 'react-csv';
+import * as XLSX from 'xlsx';
 
 export default function Advocaat_be() {
     const [data, setData] = useState([]);
@@ -49,6 +52,13 @@ export default function Advocaat_be() {
         }
     }, [index]);
 
+    const exportToExcel = () => {
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+        XLSX.writeFile(workbook, "data.xlsx");
+    };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="container mx-auto p-4">
@@ -58,6 +68,21 @@ export default function Advocaat_be() {
                     {error && <p className="text-red-500">{error}</p>}
                     {data && data.length > 0 && (
                         <div>
+                            <div className="mt-4">
+                                <button 
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                    onClick={exportToExcel}
+                                >
+                                    Exportar a Excel
+                                </button>
+                                <CSVLink 
+                                    data={data} 
+                                    filename={"data.csv"}
+                                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                >
+                                    Exportar a CSV
+                                </CSVLink>
+                            </div>
                             <h2 className="text-xl font-bold mb-2">Datos Extraídos:</h2>
                             <div className="overflow-x-auto">
                                 <table className="min-w-full bg-white border border-gray-300">
@@ -79,6 +104,7 @@ export default function Advocaat_be() {
                                     </tbody>
                                 </table>
                             </div>
+                            
                         </div>
                     )}
                 </div>
