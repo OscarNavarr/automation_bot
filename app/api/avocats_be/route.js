@@ -28,7 +28,12 @@ export async function GET(request) {
         await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for modal to open
 
         const pElement = document.querySelector('ul.cabinet-address p');
-        const textContent = pElement ? pElement.textContent.trim() : null;
+        let textContent = pElement ? pElement.textContent.trim() : null;
+
+        // Replace the "Ouvrir map" text with an empty string if it exists in the textContent
+        if (textContent) {
+          textContent = textContent.replace('Ouvrir map', '').trim();
+        }
 
         results.push({ linkText: link.textContent.trim(), text: textContent });
 

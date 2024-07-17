@@ -16,8 +16,8 @@ export default function Advocaat_be() {
         setLoading(true);
         setError(null);
         try {
-            for (let i = 1; i <= 20; i++) {
-                const response = await fetch(`/api/avocats_be?url=${encodeURIComponent(`https://avocats.be/node/18?page=${i}&barreau=BXF&matter=1.1&help=0&search=`)}`);
+            for (let i = 1; i <= 8; i++) {
+                const response = await fetch(`/api/avocats_be?url=${encodeURIComponent(`https://avocats.be/node/18?page=${i}&barreau=CHA&matter=1.1&help=0&search=`)}`);
                 if (!response.ok) {
                     throw new Error(`Error: ${response.statusText}`);
                 }
