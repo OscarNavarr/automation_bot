@@ -16,8 +16,8 @@ export default function Advocaat_be() {
         setLoading(true);
         setError(null);
         try {
-            for (let i = 1; i <= 8; i++) {
-                const response = await fetch(`/api/avocats_be?url=${encodeURIComponent(`https://avocats.be/node/18?page=${i}&barreau=CHA&matter=1.1&help=0&search=`)}`);
+            for (let i = 1; i <= 54; i++) {
+                const response = await fetch(`/api/avocats_be?url=${encodeURIComponent(`https://avocats.be/fr/trouver-un-avocat?page=${i}&barreau=0&matter=1.1&help=0&search=`)}`);
                 if (!response.ok) {
                     throw new Error(`Error: ${response.statusText}`);
                 }
@@ -53,12 +53,7 @@ export default function Advocaat_be() {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        if (data.length > 0) {
-            console.log("Data", data);
-        }
-    }, [data]);
-
+   
     const exportToExcel = () => {
         const worksheet = XLSX.utils.json_to_sheet(data);
         const workbook = XLSX.utils.book_new();
@@ -96,16 +91,18 @@ export default function Advocaat_be() {
                                     <thead>
                                         <tr>
                                             <th className="px-4 py-2 border">N°</th>
-                                            <th className="px-4 py-2 border">Texto del Enlace</th>
-                                            <th className="px-4 py-2 border">Texto del Modal</th>
+                                            <th className="px-4 py-2 border">Nom de l'avocat</th>
+                                            <th className="px-4 py-2 border">Adresse</th>
+                                            <th className="px-4 py-2 border">Barreau</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {data.map((item, idx) => (
                                             <tr key={idx} className={idx % 2 === 0 ? "bg-gray-50" : ""}>
                                                 <td className="px-4 py-2 border">{idx + 1}</td>
-                                                <td className="px-4 py-2 border">{item.linkText}</td>
-                                                <td className="px-4 py-2 border">{item.text}</td>
+                                                <td className="px-4 py-2 border">{item.avocat_name}</td>
+                                                <td className="px-4 py-2 border">{item.avocat_address}</td>
+                                                <td className="px-4 py-2 border">{item.avocat_office}</td>
                                             </tr>
                                         ))}
                                     </tbody>

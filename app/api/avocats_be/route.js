@@ -30,12 +30,14 @@ export async function GET(request) {
         const pElement = document.querySelector('ul.cabinet-address p');
         let textContent = pElement ? pElement.textContent.trim() : null;
 
+        let office = document.querySelector("ul.located").querySelector('p').innerText.trim()
+
         // Replace the "Ouvrir map" text with an empty string if it exists in the textContent
         if (textContent) {
           textContent = textContent.replace('Ouvrir map', '').trim();
         }
 
-        results.push({ linkText: link.textContent.trim(), text: textContent });
+        results.push({ avocat_name: link.textContent.trim(), avocat_address: textContent, avocat_office: office });
 
         // Close the modal if necessary (this part depends on how the modal is closed on the actual site)
         const closeButton = document.querySelector('a.close-btn.lawyer-toggler'); // Adjust the selector as needed
