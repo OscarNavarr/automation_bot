@@ -36,17 +36,7 @@ export async function GET(request) {
 
     await browser.close();
 
-    // Eliminar duplicados
-    const uniqueData = [];
-    const seen = new Set();
-    
-    for (const item of data) {
-      const identifier = `${item.notaryName}-${item.address}`;
-      if (!seen.has(identifier)) {
-        seen.add(identifier);
-        uniqueData.push(item);
-      }
-    }
+   
 
     return NextResponse.json({ data });
   } catch (error) {

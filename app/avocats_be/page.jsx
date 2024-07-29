@@ -16,8 +16,8 @@ export default function Advocaat_be() {
         setLoading(true);
         setError(null);
         try {
-            for (let i = 1; i <= 54; i++) {
-                const response = await fetch(`/api/avocats_be?url=${encodeURIComponent(`https://avocats.be/fr/trouver-un-avocat?page=${i}&barreau=0&matter=1.1&help=0&search=`)}`);
+            for (let i = 1; i <= 2; i++) {
+                const response = await fetch(`/api/avocats_be?url=${encodeURIComponent(`https://avocats.be/fr/trouver-un-avocat?page=${i}&barreau=0&matter=14&help=0&search=`)}`);
                 if (!response.ok) {
                     throw new Error(`Error: ${response.statusText}`);
                 }

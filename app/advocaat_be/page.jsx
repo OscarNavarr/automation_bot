@@ -16,14 +16,18 @@ export default function Advocaat_be() {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`/api/advocaat_be?url=${encodeURIComponent(`https://www.advocaat.be/fr/chercher-un-avocat?theme=droit-de-la-famille&radius&name&languages=fr&page=${index}`)}`);
+            const response = await fetch(`/api/advocaat_be?url=${encodeURIComponent(`https://www.advocaat.be/nl/zoek-een-advocaat?theme=invaliditeit&radius=&name=&languages=&page=${index}`)}`);
             if (!response.ok) {
                 throw new Error(`Error: ${response.statusText}`);
             }
             const result = await response.json();
 
-            // Append the new data to the existing data
-            setData((prev) => [...prev, ...result.data]);
+            // Eliminar duplicados
+            /* const uniqueNewData = result.data.filter(item => 
+                !data.some(existingItem => existingItem.notaryName === item.notaryName)
+            ); */
+            
+            setData(prevData => [...prevData, ...result.data]);
         } catch (error) {
             console.error('Error al extraer datos:', error);
             setError(error.message);
@@ -34,15 +38,15 @@ export default function Advocaat_be() {
     useEffect(() => {
         const fetchData = async () => {
             await handleScrape();
-            if (index < 12) {
-                setIndex((prevIndex) => prevIndex + 1);
+            if (index <= 1) {  // Consider changing to "<=" if 1 is inclusive
+                setIndex(prevIndex => prevIndex + 1);
             }
         };
 
         if (isInitialMount.current) {
             isInitialMount.current = false;
             fetchData();
-        } else if (index < 12) {
+        } else if (index <= 1) {
             fetchData();
         }
     }, [index]);
@@ -61,7 +65,7 @@ export default function Advocaat_be() {
                 <div className="mb-4">
                     {loading && <p>Cargando...</p>}
                     {error && <p className="text-red-500">{error}</p>}
-                    {data && data.length > 0 && (
+                    {data.length > 0 && (
                         <div>
                             <div className="mt-4">
                                 <button 
@@ -99,7 +103,6 @@ export default function Advocaat_be() {
                                     </tbody>
                                 </table>
                             </div>
-                            
                         </div>
                     )}
                 </div>
