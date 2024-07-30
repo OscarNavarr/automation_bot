@@ -16,7 +16,7 @@ export default function Advocaat_be() {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`/api/advocaat_be?url=${encodeURIComponent(`https://www.advocaat.be/nl/zoek-een-advocaat?theme=invaliditeit&radius=&name=&languages=&page=${index}`)}`);
+            const response = await fetch(`/api/advocaat_be?url=${encodeURIComponent(`https://www.advocaat.be/nl/zoek-een-advocaat?theme=mensenrechten&radius=&name=&languages=&page=${index}`)}`);
             if (!response.ok) {
                 throw new Error(`Error: ${response.statusText}`);
             }
