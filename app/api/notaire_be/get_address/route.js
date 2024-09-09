@@ -11,30 +11,29 @@ export async function GET(request) {
 
     let browser;
     try {
-        // Iniciar Puppeteer
+        
         browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
+
         await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
-        // Esperar a que aparezcan los enlaces
-        await page.waitForSelector('a.info-content-blocklink', { timeout: 30000 });
 
-        // Obtener los enlaces y los nombres de los estudios
-        const data = await page.evaluate(() => {
-            const links = document.querySelectorAll('a.info-content-blocklink');
-            const hrefs = Array.from(links).map(link => link.href);
-            const nom_etude = Array.from(links).map(link => link.querySelector('div.text>h3').innerText);
-            return { hrefs, nom_etude };
+        await page.waitForSelector('div.address-block', { timeout: 30000 });
+        
+        const newAddresses = []; 
+
+        const adresse_etude = await page.evaluate(() => {
+            return document.querySelector('div.address-block').textContent.trim();
         });
 
-        const { hrefs, nom_etude } = data;
-
+        newAddresses.push(adresse_etude);
 
         // Cerrar el navegador
         await browser.close();
 
         // Devolver los datos extraídos
-        return NextResponse.json({ data: { hrefs, nom_etude} });
+        return NextResponse.json({ data: { newAddresses} });
+
 
     } catch (error) {
         console.error(error);
@@ -43,4 +42,5 @@ export async function GET(request) {
         }
         return NextResponse.json({ message: 'Error al extraer datos' }, { status: 500 });
     }
+
 }
